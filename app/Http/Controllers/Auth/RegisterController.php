@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DB;
+use App\Role;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +39,8 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        // Se comenta para dejar el formulario de registro dentro de home
+        // $this->middleware('guest');
     }
 
     /**
@@ -50,10 +53,19 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'cedula' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
+
+     public function showRegistrationForm()
+        {
+            $roles = Role::get();
+            // dd($roles);
+            return view('auth.register',compact('roles'));
+        }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -61,12 +73,27 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    // protected function create(array $data)
+    // {
+    //     return User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => Hash::make($data['password']),
+    //     ]);
+    // }
+        protected function create(array $data)
     {
-        return User::create([
+        // dd($data->roles);
+        // dd(Role::where('id', $data['roles'])->first());
+        // dd('$data');
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'cedula' => $data['cedula'],
             'password' => Hash::make($data['password']),
         ]);
+       $user->roles()->attach(Role::where('id', $data['roles'])->first());
+       return $user;
     }
+
 }

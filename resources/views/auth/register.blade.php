@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
-
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
@@ -25,6 +24,38 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Cedula') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="cedula" type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="{{ old('cedula') }}" required autocomplete="cedula" autofocus>
+
+                                @error('cedula')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cedula" class="col-md-4 col-form-label text-md-right">{{ __('Nivel de acceso') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="roles" id="roles" class="form-control text-uppercase" required="required">
+                                    @foreach ($roles as $key => $roles)
+                                    <option value="{{$roles->id}}">{{$roles->name}}</option> 
+                                    @endforeach
+                                </select>
+
+                                @error('roles')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 

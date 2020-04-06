@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
+use App\DB;
+use App\User;
+use App\Role;
+use App\Beneficiarios;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -28,6 +34,13 @@ class HomeController extends Controller
      
      public function datos_personales()
     {
-        return view('datos_personales');
+        $user = User::get();
+        // dd($user);
+        // dd($user->farmacia);
+        // $user = Auth::user()->role;
+        // dd($user[0]->roles->first()->name);
+        // Con esto me traigo el usuario autenticado 
+        // dd(Auth::user()->roles);
+        return view('datos_personales',compact('user'));
     }
 }
