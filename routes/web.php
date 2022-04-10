@@ -23,11 +23,9 @@ Route::get('/', function () {
         Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
         // Registration Routes...
-        // if ($options['register'] ?? true) {
             Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
             Route::post('register', 'Auth\RegisterController@register');
-        // }
-
+        
         // Password Reset Routes...
         if ($options['reset'] ?? true) {
             Route::resetPassword();
@@ -39,18 +37,12 @@ Route::get('/', function () {
         }
 
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/datos_personales', 'HomeController@datos_personales')->name('datos_personales');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::resource('/beneficiarios','BeneficiariosController');
+Route::post('/guest', 'HomeController@guest')->name('guest')->middleware('guest');
 
-Route::resource('/farmacias','FarmaciasController');
+Route::get('/guest_index/{id}', 'HomeController@indexGuest')->name('guest_index')->middleware('guest');
 
-Route::resource('/centro_medico','CentroMedicoController');
+Route::post('/currency', 'HomeController@exchangeCurrency')->name('currency');
 
-// Route::resource('/cuerpo_mensajes','CuerpoMensajesController');
-
-Route::get('/cuerpo_mensajes/{form}', 'CuerpoMensajesController@index')->name('cuerpo_mensajes_index');
-
-Route::put('/cuerpo_mensajes/{form}', 'CuerpoMensajesController@update')->name('cuerpo_mensajes_update');
 

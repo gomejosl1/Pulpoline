@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMensajesDialisisTable extends Migration
+class CreateUserGuestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateMensajesDialisisTable extends Migration
      */
     public function up()
     {
-        Schema::create('mensajes_dialises', function (Blueprint $table) {
+        Schema::create('user_guest', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('parteuno');
-            $table->string('partedos');
-            $table->string('partetres');
-            $table->string('partecuatro');
+            $table->string('emailGuest');
+            $table->integer('attemps')->default(0);   
+            $table->timestamp('date_guest');
             $table->timestamps();
-            $table->softDeletes(); 
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +30,6 @@ class CreateMensajesDialisisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mensajes_dialises');
+        Schema::dropIfExists('user_guest');
     }
 }
